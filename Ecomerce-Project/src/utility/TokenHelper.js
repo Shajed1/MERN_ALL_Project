@@ -1,0 +1,22 @@
+const jwt = require('jsonwebtoken')
+const EmailHelper=require("../utility/EmailHelper");
+
+exports.EnocodeToken=(email,user_id)=>{
+    let KEY="123-ABC-XYZ"
+    let EXPIRE='24h';
+    let PAYLOAD={email:email,user_id:user_id}
+    return jwt.sign(PAYLOAD, KEY, {
+        expiresIn: EXPIRE
+    });
+}
+
+
+
+exports.DecodeToken=(token)=>{
+  try{
+      let KEY="123-ABC-XYZ"
+      return jwt.verify(token,KEY)
+  }catch(e){
+   return null
+  }
+}

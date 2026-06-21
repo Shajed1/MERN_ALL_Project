@@ -8,5 +8,5 @@ const UserSceme=mongoose.Schema({
     versionKey:false
 })
 
-const UserModel=mongoose.model("Users",UserSceme);
+const UserModel=mongoose.model("users",UserSceme);
 module.exports=UserModel;

@@ -68,7 +68,6 @@ exports.ProductReviewList=async(req,res)=>{
 
 // const ProfileModel=require("../models/ProfileModel")
 // exports.insert=async(req,res)=>{
-//     let userID=req.params.userID
-//    let data= await ProfileModel.findOne(req.userID);
+//    let data= await ProfileModel.find()
 //     return res.status(200).json({message:"Product inserted",data:data});
 // }

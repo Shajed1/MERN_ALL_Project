@@ -8,12 +8,12 @@ const hpp = require('hpp');
 const helmet = require('helmet');
 const path = require('path');
 const app = new express();
-
+const cookieParser = require('cookie-parser');
 
 
 
 app.use(cors());
-
+app.use(cookieParser());
 //security
 app.use(helmet());
 app.use(hpp());
