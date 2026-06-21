@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const ProfileSceme=mongoose.Schema({
-    userId:{type:mongoose.Schema.Types.ObjectId,required: true},
+    userID:{type:mongoose.Schema.Types.ObjectId,required: true},
 
     cus_add:{type:String},
     cus_city:{type:String},
@@ -23,5 +23,5 @@ const ProfileSceme=mongoose.Schema({
     versionKey:false
 })
 
-const ProfileModel=mongoose.model("Profiles",ProfileSceme);
+const ProfileModel=mongoose.model("profiles",ProfileSceme);
 module.exports=ProfileModel;

@@ -18,5 +18,5 @@ const ProductSceme=mongoose.Schema({
     versionKey:false
 })
 
-const ProductModel=mongoose.model("Products",ProductSceme);
+const ProductModel=mongoose.model("products",ProductSceme);
 module.exports=ProductModel;
