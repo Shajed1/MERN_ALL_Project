@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const UserSceme=mongoose.Schema({
-    userId:{type:mongoose.Schema.Types.ObjectId,required: true},
-    ProductId:{type:mongoose.Schema.Types.ObjectId,required: true},
+    userID:{type:mongoose.Schema.Types.ObjectId,required: true},
+    productID:{type:mongoose.Schema.Types.ObjectId,required: true},
 
 
 },{
@@ -9,5 +9,5 @@ const UserSceme=mongoose.Schema({
     versionKey:false
 })
 
-const WisheModel=mongoose.model("Wishes",UserSceme);
+const WisheModel=mongoose.model("wishes",UserSceme);
 module.exports=WisheModel;

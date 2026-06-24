@@ -8,7 +8,8 @@ const {
     ListBySimilierService,
     ListByRemarkService,
     ListByKeywordService,
-    ReviewListService
+    ReviewListService,
+    CreateReviewService
 }  = require('../service/ProductServices')
 
 const ProductModel=require("../models/ProductModel")
@@ -65,9 +66,19 @@ exports.ProductReviewList=async(req,res)=>{
     let result=await ReviewListService(req);
     return res.status(200).json(result);
 }
-
-// const ProfileModel=require("../models/ProfileModel")
-// exports.insert=async(req,res)=>{
-//    let data= await ProfileModel.find()
-//     return res.status(200).json({message:"Product inserted",data:data});
+exports.CreateReview=async(req,res)=>{
+    let result=await CreateReviewService(req);
+    return res.status(200).json(result);
+}
+// // const Invoicemodel=require("../models/InvoiceModel")
+// // exports.insert=async(req,res)=>{
+// //
+// //    try{
+// //        let body=req.body
+// //        let data= await Invoicemodel.create(body)
+// //        return res.status(200).json({message:"Product inserted",data:data});
+// //    }catch(err){
+// //        return {status:"failed",massage:err}
+// //    }
+//
 // }
