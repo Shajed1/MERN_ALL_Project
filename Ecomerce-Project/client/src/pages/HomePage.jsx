@@ -1,12 +1,24 @@
+import MasterLayout from "../components/layout/MasterLayout.jsx";
+import SlidersSkeleton from "../skeleton/Sliders-Skeleton.jsx";
+import FeturesSkeleton from "../skeleton/Fetures-Skeleton.jsx";
+import CategorySkeleton from "../skeleton/Category-Skeleton.jsx";
+import ProductsSkeleton from "../skeleton/Products-Skeleton.jsx";
+import BrandsSkeleton from "../skeleton/Brands-Skeleton.jsx";
 
 
 const HomePage = () => {
     return (
-        <div className="h-screen flex justify-center items-center">
-            <h1 className="text-5xl font-bold text-blue-500">
-                Tailwind CSS Working
-            </h1>
-        </div>
+<>
+        <MasterLayout>
+            <SlidersSkeleton/>
+            <FeturesSkeleton/>
+            <CategorySkeleton/>
+            <ProductsSkeleton/>
+            <BrandsSkeleton/>
+
+        </MasterLayout>
+
+</>
     );
 };
 
