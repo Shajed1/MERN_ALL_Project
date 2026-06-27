@@ -413,7 +413,64 @@ const CreateReviewService=async (req)=>{
         return {status:"fail",data:err}
     }
 }
+const ProductListByFilterService=async (req)=>{
+    try {
+       let matchCondition={};
+       if(req.body['categoryID']){
+           matchCondition.categoryID=new ObjectId(req.body['categoryID']);
+       }
+        if(req.body['brandID']){
+            matchCondition.brandID=new ObjectId(req.body['brandID']);
+        }
+        let MatchStage={$match:matchCondition}
 
+        let AddFieldStage={$addFields:{ numericPrice :{$toInt:'$price'}}}
+
+        let priceMin=parseInt(req.body['priceMin']);
+        let priceMax=parseInt(req.body['priceMax']);
+        let PriceMatchCondition={};
+          console.log(priceMin)
+        console.log(priceMax)
+        if(!isNaN(priceMin)){
+            PriceMatchCondition['numericPrice']={$gte:priceMin};
+        }
+        if(!isNaN(priceMax)){
+            PriceMatchCondition['numericPrice']={...PriceMatchCondition['numericPrice']  || {},$lte:priceMax};
+        }
+        let PriceMatchStage={$match:PriceMatchCondition}
+
+
+        let JoinWithBrandStage={$lookup: {
+            from: "brands",
+                localField: "brandID",
+                foreignField: "_id",
+                as: "brands"
+        }
+    };
+        let JoinWithCategoryStage={$lookup:{from:"categories",localField:"categoryID",foreignField:"_id",as:"categories"}}
+        let unlinkbrandstate={$unwind:"$brands"}
+        let unlinkcategorytate={$unwind:"$categories"}
+        let projection={$project:{"brands._id":0, "categories._id":0, "brandID":0,"categoryID":0}}
+
+        let data=await ProductModel.aggregate([
+            MatchStage,
+            AddFieldStage,
+            PriceMatchStage,
+            JoinWithBrandStage,JoinWithCategoryStage
+            ,unlinkbrandstate,unlinkcategorytate,projection
+        ])
+        return {status: "success", data: data};
+
+    }catch(err){
+        console.log(err);
+
+        return {
+            status:"fail",
+            message: err.message,
+            stack: err.stack
+        }
+    }
+}
 module.exports = {
     BrandListService,
     CategoryListService,
@@ -425,5 +482,6 @@ module.exports = {
     ListByRemarkService,
     ListByKeywordService,
     ReviewListService,
-    CreateReviewService
+    CreateReviewService,
+    ProductListByFilterService
 }

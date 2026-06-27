@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch, FiUser, FiLogOut, FiHome, FiPhone, FiMail } from "react-icons/fi";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
+import ProductStore from "../../store/ProductStore.js";
+import { useNavigate } from "react-router-dom";
 
 const AppNavbar = () => {
+    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+     const {SetSearchKeyword,SearchKeyword}=ProductStore()
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
             {/* টপ বার – কন্টাক্ট ইনফো */}
@@ -44,12 +47,33 @@ const AppNavbar = () => {
 
                         {/* সার্চ বার */}
                         <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search products..."
-                                className="w-48 lg:w-64 px-4 py-2 pr-10 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                            />
-                            <FiSearch className="w-5 h-5 absolute right-3 top-2.5 text-gray-400" />
+                            <div className="flex w-full max-w-xl mx-auto">
+
+                                {/* Search Input */}
+                                <div className="relative flex-1">
+                                    <input
+                                        type="text"
+                                        value={SearchKeyword}
+                                        onChange={(e) => SetSearchKeyword(e.target.value)}
+                                        placeholder="Search for products..."
+                                        className="w-full h-14 pl-12 pr-4 rounded-l-2xl border border-r-0 border-gray-300 bg-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                                    />
+
+                                </div>
+
+                                {/* Search Button */}
+                                <button
+                                    onClick={() => {
+                                        SearchKeyword.length > 0
+                                            ? navigate(`/by-keyword/${SearchKeyword}`)
+                                            : navigate("/");
+                                    }}
+                                    className="h-14 px-8 rounded-r-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-blue-300 transition-all duration-300"
+                                >
+                                    Search
+                                </button>
+
+                            </div>
                         </div>
 
                         <Link to="/profile" className="flex items-center gap-1 text-gray-700 hover:text-indigo-600 text-sm font-medium">
