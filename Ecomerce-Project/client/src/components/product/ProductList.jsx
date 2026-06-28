@@ -2,10 +2,40 @@ import ProductStore from "../../store/ProductStore.js";
 import ProductsSkeleton from "../../skeleton/Products-Skeleton.jsx";
 import { Rating } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
 
 
 const ProductList = () => {
-    const { ListProduct } = ProductStore();
+    const { ListProduct,BrandList,BrandListRequest,CategoryList,CategoryListRequest,ListByFilterRequest} = ProductStore();
+
+    let [Filter,serFilter]=useState({
+
+        brandID: "",
+        categoryID: "",
+        priceMin:"",
+        priceMax:""
+
+    })
+
+    const inputonchage=(name,value)=>{
+        serFilter((data)=>({
+                ... data,
+                [name]:value
+        }))
+    }
+
+    useEffect(()=>{
+        (async ()=>{
+            BrandList===null?await  BrandListRequest():null;
+            CategoryList===null?await  CategoryListRequest():null;
+            let isEveryFilterEmpty=Object.values(Filter).every(value => value==="");
+            !isEveryFilterEmpty?await ListByFilterRequest(Filter):null
+
+        })()
+    },[Filter])
+
+
+
     return (
         <section className="bg-gradient-to-br from-blue-50 via-indigo-50/30 to-white min-h-screen py-8">
             <div className="container mx-auto px-4">
@@ -35,11 +65,17 @@ const ProductList = () => {
                                     <span className="inline-block w-1 h-4 bg-blue-500 rounded-full mr-2 align-middle"></span>
                                     Brands
                                 </label>
-                                <select className="w-full rounded-xl border-blue-200/80 bg-blue-50/50 text-gray-700 text-sm py-3 px-4 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 outline-none shadow-sm hover:shadow-md">
+                                <select value={Filter.brandID} onChange={async (e)=>{await inputonchage('brandID',e.target.value)}} className="w-full rounded-xl border-blue-200/80 bg-blue-50/50 text-gray-700 text-sm py-3 px-4 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 outline-none shadow-sm hover:shadow-md">
                                     <option value="">Choose Brand</option>
-                                    <option value="apple">Apple</option>
-                                    <option value="samsung">Samsung</option>
-                                    <option value="sony">Sony</option>
+                                    {
+                                        BrandList!==null?(
+                                            BrandList.map((item,i)=>{
+                                             return <option value={item['_id']}>{item['brandName']}</option>
+                                            })
+                                        ):(
+                                            <option value=""></option>
+                                        )
+                                    }
                                 </select>
                             </div>
 
@@ -49,11 +85,17 @@ const ProductList = () => {
                                     <span className="inline-block w-1 h-4 bg-blue-500 rounded-full mr-2 align-middle"></span>
                                     Categories
                                 </label>
-                                <select className="w-full rounded-xl border-blue-200/80 bg-blue-50/50 text-gray-700 text-sm py-3 px-4 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 outline-none shadow-sm hover:shadow-md">
+                                <select value={Filter.categoryID} onChange={async (e)=>{await inputonchage('categoryID',e.target.value)}} className="w-full rounded-xl border-blue-200/80 bg-blue-50/50 text-gray-700 text-sm py-3 px-4 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 outline-none shadow-sm hover:shadow-md">
                                     <option value="">Choose Category</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="wearables">Wearables</option>
-                                    <option value="bags">Bags</option>
+                                    {
+                                        CategoryList!==null?(
+                                            CategoryList.map((item,i)=>{
+                                                return <option value={item['_id']}>{item['categoryName']}</option>
+                                            })
+                                        ):(
+                                            <option value=""></option>
+                                        )
+                                    }
                                 </select>
                             </div>
 
@@ -61,9 +103,10 @@ const ProductList = () => {
                             <div className="mb-4">
                                 <label className="block text-xs font-semibold text-blue-700 uppercase tracking-wider mb-2">
                                     <span className="inline-block w-1 h-4 bg-blue-500 rounded-full mr-2 align-middle"></span>
-                                    Maximum Price
+                                    Maximum Price {Filter.priceMax} ৳
                                 </label>
                                 <input
+                                    value={Filter.priceMax} onChange={async (e)=>{await inputonchage('priceMax',e.target.value)}}
                                     type="range"
                                     min="0"
                                     max="1000000"
@@ -80,9 +123,10 @@ const ProductList = () => {
                             <div className="mb-4">
                                 <label className="block text-xs font-semibold text-blue-700 uppercase tracking-wider mb-2">
                                     <span className="inline-block w-1 h-4 bg-blue-500 rounded-full mr-2 align-middle"></span>
-                                    Minimum Price
+                                    Minimum Price {Filter.priceMin} ৳
                                 </label>
                                 <input
+                                    value={Filter.priceMin} onChange={async (e)=>{await inputonchage('priceMin',e.target.value)}}
                                     type="range"
                                     min="0"
                                     max="1000000"
@@ -94,16 +138,6 @@ const ProductList = () => {
                                     <span>৳0</span>
                                     <span>৳1,000,000</span>
                                 </div>
-                            </div>
-
-                            {/* Apply / Reset Buttons */}
-                            <div className="flex gap-3 mt-6">
-                                <button className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]">
-                                    Apply Filters
-                                </button>
-                                <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-semibold py-3 rounded-xl transition-all duration-300 border border-gray-200">
-                                    Reset
-                                </button>
                             </div>
                         </div>
                     </div>

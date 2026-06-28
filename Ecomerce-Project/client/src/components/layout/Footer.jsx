@@ -32,10 +32,10 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
                         <ul className="space-y-2 text-sm text-gray-400">
-                            <li><a href="#" className="hover:text-indigo-400 transition">About Us</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">Contact</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">FAQ</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">Blog</a></li>
+                            <li><a href="/about" className="hover:text-indigo-400 transition">About Us</a></li>
+                            <li><a href="/contact" className="hover:text-indigo-400 transition">Contact</a></li>
+                            <li><a href="/howtobuy" className="hover:text-indigo-400 transition">How To Buy</a></li>
+                            <li><a href="/complain" className="hover:text-indigo-400 transition">Complain</a></li>
                         </ul>
                     </div>
 
@@ -43,10 +43,9 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-3">Customer Service</h3>
                         <ul className="space-y-2 text-sm text-gray-400">
-                            <li><a href="#" className="hover:text-indigo-400 transition">Shipping Policy</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">Returns & Refunds</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">Privacy Policy</a></li>
-                            <li><a href="#" className="hover:text-indigo-400 transition">Terms of Service</a></li>
+                            <li><a href="/terms" className="hover:text-indigo-400 transition">Terms & Conditions</a></li>
+                            <li><a href="/privacy" className="hover:text-indigo-400 transition">Privacy Policy</a></li>
+                            <li><a href="/refund" className="hover:text-indigo-400 transition">Refund Policy</a></li>
                         </ul>
                     </div>
 

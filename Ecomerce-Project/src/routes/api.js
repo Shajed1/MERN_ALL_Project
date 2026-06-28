@@ -58,6 +58,7 @@ router.post("/PaymentSuccess/:trxID",InvoiceController.PaymentSuccess)
 
 // Features Route
 router.get("/FeturesList",FeaturesController.FeturesList)
+router.get("/Legaldetails/:type",FeaturesController.Legaldetails)
 
 //Create Review
 router.post("/CreateReview",AuthMiddleware,ProductController.CreateReview)

@@ -384,12 +384,12 @@ try{
     let joinwithProfilestate={$lookup:{from:"profiles",localField:"userID",foreignField:"userID",as:"profile"}}
 
     let projecttionstage= {
-        $project: {"des": 1, "rating":1, "profile.cus_name":1}}
+         $project: {"des": 1, "rating":1, "profile.cus_name":1}}
 
     let data=await Reviewmodel.aggregate([
         MatchState,
         joinwithProfilestate,
-        projecttionstage
+         projecttionstage
     ])
     return {status: "success", data: data};
 
@@ -408,11 +408,13 @@ const CreateReviewService=async (req)=>{
             des:reqbody["des"],
             rating:reqbody["rating"],
         })
-        return {status:"fail",data:data}
+        return {status:"success",data:data}
     }catch(err){
         return {status:"fail",data:err}
     }
 }
+
+
 const ProductListByFilterService=async (req)=>{
     try {
        let matchCondition={};
@@ -429,8 +431,6 @@ const ProductListByFilterService=async (req)=>{
         let priceMin=parseInt(req.body['priceMin']);
         let priceMax=parseInt(req.body['priceMax']);
         let PriceMatchCondition={};
-          console.log(priceMin)
-        console.log(priceMax)
         if(!isNaN(priceMin)){
             PriceMatchCondition['numericPrice']={$gte:priceMin};
         }
