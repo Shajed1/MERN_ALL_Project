@@ -1,7 +1,28 @@
 import UserStore from "../../store/UserStore.js";
-
+import SubmitButtonComponent from "../../skeleton/SubmitButtonComponent.jsx";
+import toast from "react-hot-toast";
+import ValidationHelper from "../../utility/ValidationHelper.js";
+import {useNavigate} from "react-router-dom";
 const LoginForm = () => {
-  const {LoginFormValue}=UserStore()
+
+
+    let navigate = useNavigate();
+  const {LoginFormdata,LoginFormOnchange,UserLoginRequest}=UserStore()
+   const onFormSubmit = async () => {
+     if(!ValidationHelper.IsEmail(LoginFormdata.email)){
+         toast.error("Invalid Email");
+     }else{
+      let res=   await UserLoginRequest(LoginFormdata.email)
+         if (res) {
+             toast.success("OTP sent to your email.");
+             navigate("/otpverify");
+         } else {
+             toast.error("Email Not Match");
+         }
+     }
+   }
+
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4">
 
@@ -34,19 +55,21 @@ const LoginForm = () => {
                                 Email Address
                             </label>
 
+
                             <input
-                                value={LoginFormValue.email}
+                                value={LoginFormdata.email}
+                                onChange={(e) => LoginFormOnchange("email",e.target.value)}
                                 type="email"
                                 placeholder="Enter your email"
                                 className="w-full h-14 px-5 rounded-xl border border-gray-300 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-300"
                             />
                         </div>
 
-                        <button type="submit" className="w-full h-14 rounded-xl bg-gradient-to-r
+                        <SubmitButtonComponent onClick={onFormSubmit}  submit={true} className="w-full h-14 rounded-xl bg-gradient-to-r
                         from-blue-600 to-indigo-600 text-white font-semibold text-lg
                          hover:from-blue-700 hover:to-indigo-700 shadow-lg
                           shadow-blue-200 hover:shadow-blue-300 transition-all
-                           duration-300 cursor-pointer">Continue</button>
+                           duration-300 cursor-pointer" text='Continue' />
 
                     </form>
 

@@ -4,21 +4,26 @@ const SubmitButtonComponent = (props) => {
 
     const { IsFormSubmit } = UserStore();
 
+    if (IsFormSubmit) {
+        return (
+            <button
+                type={props.type || "button"}
+                disabled
+                className={`${props.className} flex items-center justify-center gap-2`}
+            >
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Please Wait...</span>
+            </button>
+        );
+    }
+
     return (
         <button
-            type="submit"
-            disabled={IsFormSubmit}
+            type={props.type || "button"}
             onClick={props.onClick}
-            className={`${props.className} flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
+            className={props.className}
         >
-            {IsFormSubmit ? (
-                <>
-                    <div className="w-5 h-5 border-[3px] border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>Processing...</span>
-                </>
-            ) : (
-                props.text
-            )}
+            {props.text}
         </button>
     );
 };

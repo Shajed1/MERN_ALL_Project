@@ -1,6 +1,29 @@
+import UserStore from "../../store/UserStore.js";
+import ValidationHelper from "../../utility/ValidationHelper.js";
+import toast from "react-hot-toast";
+import SubmitButtonComponent from "../../skeleton/SubmitButtonComponent.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const OtpForm = () => {
+let navigate = useNavigate();
+const {OtpFormdata,OtpFormOnchange,UserOtpRequest}=UserStore()
+
+    const onFormSubmit = async () => {
+        if(ValidationHelper.IsEmpty(OtpFormdata.otp)){
+            toast.error("Valid PIN Required");
+        }else{
+            let res=   await UserOtpRequest(OtpFormdata.otp)
+            if (res) {
+                toast.success("OTP Verification Successfully");
+                navigate("/")
+            } else {
+
+                toast.error("OTP Not Match");
+            }
+        }
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4">
 
@@ -36,6 +59,9 @@ const OtpForm = () => {
                             </label>
 
                             <input
+                                value={OtpFormdata.otp}
+                                onChange={(e) => OtpFormOnchange("otp",e.target.value)}
+
                                 type="text"
                                 maxLength={6}
                                 placeholder="Enter 6-digit OTP"
@@ -43,12 +69,11 @@ const OtpForm = () => {
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            className="w-full h-14 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all duration-300 cursor-pointer"
-                        >
-                            Verify OTP
-                        </button>
+                        <SubmitButtonComponent onClick={onFormSubmit}  submit={false} className="w-full h-14 rounded-xl bg-gradient-to-r
+                        from-blue-600 to-indigo-600 text-white font-semibold text-lg
+                         hover:from-blue-700 hover:to-indigo-700 shadow-lg
+                          shadow-blue-200 hover:shadow-blue-300 transition-all
+                           duration-300 cursor-pointer" text='Verify OTP' />
 
                     </form>
 

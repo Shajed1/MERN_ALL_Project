@@ -10,6 +10,8 @@ import LegalContentPage from "./components/layout/LegalContentPage.jsx";
 
 import LoginPage from "./pages/LoginPage.jsx";
 import OtpPage from "./pages/OtpPage.jsx";
+import UserProfile from "./components/user/UserProfile.jsx";
+import ProfileDetailsPage from "./pages/ProfileDetailsPage.jsx";
 
 const App = () => {
 
@@ -27,7 +29,8 @@ const App = () => {
                     <Route path="/about" element={<LegalContentPage/>} />
                     <Route path="/contact" element={<LegalContentPage/>} />
                     <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/otpverify/:otp" element={<OtpPage/>}/>
+                    <Route path="/otpverify" element={<OtpPage/>}/>
+                    <Route path="/profile" element={<ProfileDetailsPage/>} />
                 </Routes>
            </BrowserRouter>
   );

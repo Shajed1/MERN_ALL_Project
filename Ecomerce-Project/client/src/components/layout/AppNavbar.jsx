@@ -1,14 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiSearch, FiUser, FiLogOut, FiHome, FiPhone, FiMail } from "react-icons/fi";
+import {FiSearch, FiUser, FiLogOut, FiHome, FiPhone, FiMail, FiLogIn} from "react-icons/fi";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import ProductStore from "../../store/ProductStore.js";
 import { useNavigate } from "react-router-dom";
+import UserStore from "../../store/UserStore.js";
 
 const AppNavbar = () => {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
      const {SetSearchKeyword,SearchKeyword}=ProductStore()
+    const {isLogin,UserLogoutRequest}=UserStore()
+
+    const onLogout = async () => {
+     await UserLogoutRequest()
+        document.cookie = "token=; Max-Age=0; path=/;";
+      sessionStorage.clear();
+      localStorage.clear();
+        navigate('/')
+    }
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
             {/* টপ বার – কন্টাক্ট ইনফো */}
@@ -76,13 +86,36 @@ const AppNavbar = () => {
                             </div>
                         </div>
 
-                        <Link to="/profile" className="flex items-center gap-1 text-gray-700 hover:text-indigo-600 text-sm font-medium">
-                            <FiUser className="w-4 h-4" /> Profile
-                        </Link>
 
-                        <button className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium">
-                            <FiLogOut className="w-4 h-4" /> Logout
-                        </button>
+                        {
+                            isLogin() ? (
+                                <>
+                                    <Link
+                                        to="/profile"
+                                        className="flex items-center gap-1 text-gray-700 hover:text-indigo-600 text-sm font-medium"
+                                    >
+                                        <FiUser className="w-4 h-4" />Profile</Link>
+
+                                    <button
+                                     onClick={onLogout}   className=" cursor-pointer  flex items-center gap-1 text-red-500 hover:text-red-700 text-sm font-medium">
+                                        <FiLogOut className="w-4 h-4" />
+                                        Logout
+                                    </button>
+                                </>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-lg font-medium"
+                                >
+                                    <FiLogIn className="w-5 h-5" />
+                                    Login
+                                </Link>
+                            )
+                        }
+
+
+
+
                     </div>
 
                     {/* মোবাইল হ্যামবার্গার */}
